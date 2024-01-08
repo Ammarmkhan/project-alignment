@@ -1,0 +1,41 @@
+# Ignore common files and directories
+/node_modules
+/build
+/dist
+
+# Ignore environment files (e.g., .env)
+.env
+
+# Ignore any editor-specific files
+.vscode
+.idea
+*.iml
+
+# Ignore compiled Python files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore compiled JavaScript files
+*.log
+
+# Ignore local development settings for Django
+/backend/local_settings.py
+
+# Ignore compiled TypeScript files
+*.js
+*.js.map
+
+# Ignore virtual environment for Django
+/backend/venv/
+
+# Ignore Django migration files and database
+/backend/migrations/
+/backend/db.sqlite3
+
+# Ignore npm dependencies for React
+/frontend/node_modules
+
+# Ignore build artifacts for React
+/frontend/build
+/frontend/dist
