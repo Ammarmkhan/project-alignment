@@ -163,3 +163,31 @@ class WorkoutUploadTestCase(TestCase):
         # Check the count of records in the database after the second upload
         workout_count_after_second_upload = Workout.objects.count()
         self.assertEqual(workout_count_after_second_upload, 2)  # Adjust based on your actual data
+
+
+# Ensure duplicates removed from workout data
+class WorkoutDuplicatesRevmoed(TestCase):    
+
+    def test_workout_csv_upload(self):
+
+        # Create a user
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
+
+        # Create a token for the user
+        self.token = Token.objects.create(user=self.user)
+
+        # Create a client
+        self.client = APIClient()
+
+        # Authenticate the client with the token
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
+
+        # Create a sample CSV file content
+        csv_data = b'Date,Workout Name,Duration,Exercise Name,Set Order,Weight,Reps,Distance,Seconds,Notes,Workout Notes,RPE\n2022-11-15 21:37:50,"Evening Workout",32s,"Aerobics",1,0,0,0,2460,"","",\n2022-11-15 21:37:50,"Evening Workout",42s,"Aerobics",1,0,0,0,2460,"","",\n'
+
+        # Make an upload request
+        response = self.client.post('/fitness_api/workouts/', csv_data, content_type="text/csv")
+
+        # Check the count of records in the database is 1
+        workout_count_after_second_upload = Workout.objects.count()
+        self.assertEqual(workout_count_after_second_upload, 1)  # Adjust based on your actual data
