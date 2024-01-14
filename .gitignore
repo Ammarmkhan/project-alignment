@@ -22,10 +22,6 @@ __pycache__/
 # Ignore local development settings for Django
 /backend/local_settings.py
 
-# Ignore compiled TypeScript files
-*.js
-*.js.map
-
 # Ignore virtual environment for Django
 /backend/venv/
 
