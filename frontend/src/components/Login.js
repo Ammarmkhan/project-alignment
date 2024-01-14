@@ -59,7 +59,7 @@ const Login = () => {
     useEffect(() => {
         // Re-direct to dashbaord if it exists
         if (token['workout-token']) {
-            window.location.href = '/dashboard';
+            window.location.href = '/';
             }
     }, [token]);
 
