@@ -5,23 +5,22 @@ import Login from './components/Login';
 import { CookiesProvider } from 'react-cookie';
 import { useState } from 'react';
 import Dashboard from './components/Dashboard';
-
-
-// More
+import Team from './components/Team';
+import Contacts from './components/Contacts';
+import Invoices from './components/Invoices';
+import Form from './components/Form';
+import Bar from './components/Bar';
+import Pie from './components/Pie';
+import LineChart from './components/LineChart';
 import Topbar from "./components/Topbar";
 import Sidebar from "./components/Sidebar";
-// import Team from "./scenes/team";
-// import Invoices from "./scenes/invoices";
-// import Contacts from "./scenes/contacts";
-// import Bar from "./scenes/bar";
-// import Form from "./scenes/form";
-// import Line from "./scenes/line";
-// import Pie from "./scenes/pie";
-// import FAQ from "./scenes/faq";
-// import Geography from "./scenes/geography";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
-// import Calendar from "./scenes/calendar/calendar";
+// import Calendar from './components/Calendar';
+import FAQ from './components/FAQ';
+import GeographyChart from './components/GeographyChart';
+
+
 
 
 function App() {
@@ -44,6 +43,16 @@ function App() {
                   <Route path="/" element={<Dashboard />} />
                   <Route path="/signup" element={<SignUp />} />
                   <Route path="/login" element={<Login />} />
+                  <Route path="/team" element={<Team />} />
+                  <Route path="/contacts" element={<Contacts />} />
+                  <Route path="/invoices" element={<Invoices />} />
+                  <Route path="/form" element={<Form />} />
+                  <Route path="/bar" element={<Bar />} />
+                  <Route path="/pie" element={<Pie />} />
+                  <Route path="/line" element={<LineChart />} />
+                  <Route path="/faq" element={<FAQ />} />
+                  {/* <Route path="/calendar" element={<Calendar />} /> */}
+                  <Route path="/geography" element={<GeographyChart />} />
                 </Routes>
               </CookiesProvider>
             </main>
