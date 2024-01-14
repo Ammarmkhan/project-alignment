@@ -12,6 +12,5 @@ export const validate = (data) => {
     } else {
         delete errors.password;
     }
-
     return errors;
 }

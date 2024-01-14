@@ -152,3 +152,6 @@ LOGGING = {
         'level': 'INFO',
     },
 }
+
+# If you want to allow all origins:
+CORS_ALLOW_ALL_ORIGINS = True

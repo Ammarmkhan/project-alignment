@@ -7,8 +7,10 @@ import styles from "./SignUp.module.css";
 
 import { validate } from "./validate";
 import { notify } from './toast';
+import { API } from '../api-service';
 
-const Registration = () => {
+
+const SignUp = () => {
     // To hold name and password
     const [data, setData] = useState({
         name: "",  
@@ -33,10 +35,18 @@ const Registration = () => {
     const submitHandler = (event) => {
         event.preventDefault();
         if (Object.keys(errors).length === 0) {
-            notify("Registration successful", "success");
+
+            // Try to register
+            API.registerUser({ username: data.name, password: data.password })
+            .then((response) => {
+                if (response.username === data.name) {
+                    notify("Registration successful", "success");
+                } else {
+                    notify(response.username[0], "error");
+                } 
+            })
+            .catch(error => console.log(error))
         } else {
-            console.log(Object.keys(errors).length);
-            console.log(errors);
             notify("Registration failed", "error");
             setTouched({ name: true, password: true });
         }
@@ -83,7 +93,7 @@ const Registration = () => {
                     )}
                 </div>
                 <div className={styles.formButtons}>
-                   {/* <Link to="/login">Login</Link> */}
+                   <Link to="/login">Login</Link>
                     <button type="submit">Sign Up</button>
                 </div>
             </form>
@@ -92,4 +102,4 @@ const Registration = () => {
     );
 };
 
-export default Registration;
+export default SignUp;
