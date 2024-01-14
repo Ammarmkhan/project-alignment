@@ -19,12 +19,46 @@ import { ColorModeContext, useMode } from "./theme";
 // import Calendar from './components/Calendar';
 import FAQ from './components/FAQ';
 import GeographyChart from './components/GeographyChart';
+import { useLocation } from 'react-router-dom';
 
 
 
+
+function MainContent({ isSidebar, setIsSidebar }) {
+  // Get current location
+  const location = useLocation();
+
+  // Check if the current route is not login or signup
+  const showSidebarAndTopbar = location.pathname !== '/login' && location.pathname !== '/signup';
+
+  return (
+    <div className="app">
+      {showSidebarAndTopbar && <Sidebar isSidebar={isSidebar} />}
+      <main className="content">
+        {showSidebarAndTopbar && <Topbar setIsSidebar={setIsSidebar} />}
+        <CookiesProvider>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/team" element={<Team />} />
+            <Route path="/contacts" element={<Contacts />} />
+            <Route path="/invoices" element={<Invoices />} />
+            <Route path="/form" element={<Form />} />
+            <Route path="/bar" element={<Bar />} />
+            <Route path="/pie" element={<Pie />} />
+            <Route path="/line" element={<LineChart />} />
+            <Route path="/faq" element={<FAQ />} />
+            {/* <Route path="/calendar" element={<Calendar />} /> */}
+            <Route path="/geography" element={<GeographyChart />} />
+          </Routes>
+        </CookiesProvider>
+      </main>
+    </div>
+  );
+}
 
 function App() {
-
   // For theme and sidebar toggling
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
@@ -34,29 +68,7 @@ function App() {
       <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <div className="app">
-            <Sidebar isSidebar={isSidebar} />
-            <main className="content">
-              <Topbar setIsSidebar={setIsSidebar} />
-              <CookiesProvider>
-                <Routes>
-                  <Route path="/" element={<Dashboard />} />
-                  <Route path="/signup" element={<SignUp />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/team" element={<Team />} />
-                  <Route path="/contacts" element={<Contacts />} />
-                  <Route path="/invoices" element={<Invoices />} />
-                  <Route path="/form" element={<Form />} />
-                  <Route path="/bar" element={<Bar />} />
-                  <Route path="/pie" element={<Pie />} />
-                  <Route path="/line" element={<LineChart />} />
-                  <Route path="/faq" element={<FAQ />} />
-                  {/* <Route path="/calendar" element={<Calendar />} /> */}
-                  <Route path="/geography" element={<GeographyChart />} />
-                </Routes>
-              </CookiesProvider>
-            </main>
-          </div>
+          <MainContent isSidebar={isSidebar} setIsSidebar={setIsSidebar} />
         </ThemeProvider>
       </ColorModeContext.Provider>
     </BrowserRouter>
