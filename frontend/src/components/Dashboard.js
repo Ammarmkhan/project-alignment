@@ -69,7 +69,6 @@ const Dashboard = () => {
       if (file) {
         fileReader.onload = function (event) {
           const csvOutput = event.target.result;
-          console.log(csvOutput);
   
           // Send csv data to backend
           const handleCsvUpload = (csvData) => {
