@@ -5,8 +5,8 @@ import Login from './components/Login';
 import { CookiesProvider } from 'react-cookie';
 import { useState } from 'react';
 import Dashboard from './components/Dashboard';
-import Team from './components/Team';
-import Contacts from './components/Contacts';
+import Integrations from './components/Integrations';
+import Saved from './components/Saved';
 import Invoices from './components/Invoices';
 import Form from './components/Form';
 import Bar from './components/Bar';
@@ -41,8 +41,8 @@ function MainContent({ isSidebar, setIsSidebar }) {
             <Route path="/" element={<Dashboard />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/team" element={<Team />} />
-            <Route path="/contacts" element={<Contacts />} />
+            <Route path="/integrations" element={<Integrations />} />
+            <Route path="/saved" element={<Saved />} />
             <Route path="/invoices" element={<Invoices />} />
             <Route path="/form" element={<Form />} />
             <Route path="/bar" element={<Bar />} />
