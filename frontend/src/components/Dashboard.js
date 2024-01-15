@@ -15,11 +15,83 @@ import ProgressCircle from "./ProgressCircle";
 import AdsClickOutlinedIcon from '@mui/icons-material/AdsClickOutlined';
 import UploadOutlinedIcon from '@mui/icons-material/UploadOutlined';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
+import DynamicVisuals from "./DynamicVisuals";
+import MainTextInput from "./MainTextInput";
+import TextOutput from "./TextOutput";
+import SecondaryTextInput from "./SecondaryTextInput";
+import { useEffect } from "react";
+import { useCookies } from "react-cookie";
+import { useState } from "react";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { styled } from '@mui/material/styles';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { notify } from './toast';
 
 const Dashboard = () => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
 
+    // For theme setup
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+
+    // Logout if Token is expired
+    const [token] = useCookies(['workout-token']);
+    useEffect(() => {
+        if (!token['workout-token']) window.location.href = '/login';
+    }, [token]);
+
+    // For upload button
+    const VisuallyHiddenInput = styled('input')({
+        clip: 'rect(0 0 0 0)',
+        clipPath: 'inset(50%)',
+        height: 1,
+        overflow: 'hidden',
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        whiteSpace: 'nowrap',
+        width: 1,
+      });
+
+    // For csv upload
+    const [file, setFile] = useState();
+
+    const fileReader = new FileReader();
+    
+    const handleOnChange = (e) => {
+        setFile(e.target.files[0]);
+    };
+
+
+    const handleOnSubmit = (e) => {
+      e.preventDefault();
+  
+      if (file) {
+        fileReader.onload = function (event) {
+          const csvOutput = event.target.result;
+          console.log(csvOutput);
+  
+          // Send csv data to backend
+          const handleCsvUpload = (csvData) => {
+            fetch('http://localhost:8000/fitness_api/workouts/', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'text/csv', // Set content type to text/csv
+                'Authorization': `Token ${token['workout-token']}`
+              },
+              body: csvData, // Send raw CSV text
+            })
+              .then((resp) => resp.json())
+              .catch((error) => console.log(error));
+          };
+  
+          // Call handleCsvUpload with the CSV data
+          handleCsvUpload(csvOutput);
+        };
+  
+        fileReader.readAsText(file);
+      }
+    };
   return (
     <Box m="20px">
       {/* HEADER */}
@@ -27,32 +99,27 @@ const Dashboard = () => {
         <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
 
         <Box>
-          <Button
-            sx={{
-              backgroundColor: colors.blueAccent[700],
-              color: colors.grey[100],
-              fontSize: "14px",
-              fontWeight: "bold",
-              padding: "10px 20px",
-              marginRight: "10px", 
-
-            }}
-          >
-            <AdsClickOutlinedIcon sx={{ mr: "10px" }} />
-            Select File
-          </Button>
-          <Button
-            sx={{
-              backgroundColor: colors.blueAccent[700],
-              color: colors.grey[100],
-              fontSize: "14px",
-              fontWeight: "bold",
-              padding: "10px 20px",
-            }}
-          >
-            <UploadOutlinedIcon sx={{ mr: "10px" }} />
-            Upload
-          </Button>
+            <Button
+                component="label"
+                variant="contained"
+                startIcon={<CloudUploadIcon />}
+                sx={{
+                    backgroundColor: colors.blueAccent[700],
+                    color: colors.grey[100],
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                    padding: "10px 20px",
+                }}
+            >
+                Upload file
+                <VisuallyHiddenInput type="file" id="csvFileInput" 
+                    onChange={(e) => {
+                        handleOnChange(e);
+                        handleOnSubmit(e);
+                        notify("Upload successful", "success");
+                    }} />
+            </Button>
+            <ToastContainer />
         </Box>
       </Box>
 
@@ -93,7 +160,8 @@ const Dashboard = () => {
               </IconButton>
             </Box>
           </Box>
-          <Box height="250px" m="-20px 0 0 0">
+          <Box height="250px" m="-20px 0 0 0" p="30px">
+            <DynamicVisuals/>
              {/* <LineChart isDashboard={true} /> */}
           </Box>
         </Box>
@@ -115,37 +183,9 @@ const Dashboard = () => {
               Textual Exploration
             </Typography>
           </Box>
-          {/* {mockTransactions.map((transaction, i) => (
-            <Box
-              key={`${transaction.txId}-${i}`}
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              borderBottom={`4px solid ${colors.primary[500]}`}
-              p="15px"
-            >
-              <Box>
-                <Typography
-                  color={colors.greenAccent[500]}
-                  variant="h5"
-                  fontWeight="600"
-                >
-                  {transaction.txId}
-                </Typography>
-                <Typography color={colors.grey[100]}>
-                  {transaction.user}
-                </Typography>
-              </Box>
-              <Box color={colors.grey[100]}>{transaction.date}</Box>
-              <Box
-                backgroundColor={colors.greenAccent[500]}
-                p="5px 10px"
-                borderRadius="4px"
-              >
-                ${transaction.cost}
-              </Box>
+            <Box height="250px" m="-20px 0 0 0" p="30px">
+                <TextOutput />
             </Box>
-          ))} */}
         </Box>
 
         {/* ROW 2 */}
@@ -153,11 +193,10 @@ const Dashboard = () => {
           gridColumn="span 8"
           gridRow="span 1"
           backgroundColor={colors.primary[400]}
-          p="30px"
         >
-          <Typography variant="h5" fontWeight="600">
-            For visual exploration
-          </Typography>
+          <Box height="250px" m="-20px 0 0 0" p="30px">
+             <MainTextInput />
+          </Box>
          
         </Box>
         <Box
@@ -165,13 +204,9 @@ const Dashboard = () => {
           gridRow="span 1"
           backgroundColor={colors.primary[400]}
         >
-          <Typography
-            variant="h5"
-            fontWeight="600"
-            sx={{ padding: "30px 30px 0 30px" }}
-          >
-            For textual exploration
-          </Typography>
+        <Box height="250px" m="-20px 0 0 0" p="30px">
+            <SecondaryTextInput />
+        </Box>
           
         </Box>
       </Box>

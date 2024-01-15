@@ -6,11 +6,19 @@ import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettin
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "./Header";
+import { useEffect } from "react";
+import { useCookies } from "react-cookie";
 
 const Integrations = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
  
+  // Logout if Token is expired
+  const [token] = useCookies(['workout-token']);
+  useEffect(() => {
+    if (!token['workout-token']) window.location.href = '/login';
+  }, [token]);
+  
 
   return (
         <Box m="20px">

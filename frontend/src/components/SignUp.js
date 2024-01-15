@@ -93,7 +93,7 @@ const SignUp = () => {
                     )}
                 </div>
                 <div className={styles.formButtons}>
-                   <Link to="/login">Login</Link>
+                <Link to="/login" style={{ color: '#4BCEAC' }}>Login</Link>
                     <button type="submit">Sign Up</button>
                 </div>
             </form>

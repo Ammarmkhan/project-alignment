@@ -1,26 +1,29 @@
 .container{
     display: flex;
     justify-content: center;
-    background-color: #212A3F;
+    background-color: #141B2D;
     min-height: 100vh;
     align-items: center;
 }
 .formContainer{
-    border: 1px solid silver;
+    /* border: 1px solid silver; */
     width: fit-content;
     padding: 50px;
     margin: 50px;
     border-radius: 10px;
     height: fit-content;
-    background-color: #E9EEFA;
+    background-color: #1F2A40;
 }
 .header{
   text-align: left;
   margin-bottom: 40px;
   font-size: 1.8rem;
-  color: #000000;
-  font-family: 'Arial', sans-serif;
+  color: #E0E0E0;
+  font-family: Source Sans Pro,sans-serif;
+  font-size: 32px;
+  font-weight: 700;
 }
+
 .formField{
     display: flex;
     flex-direction: column;
@@ -30,7 +33,7 @@
 .formField label{
     text-align: left;
     margin-bottom: 5px;
-    color: grey;
+    color: #4BCEAC;
     font-size: 0.9rem;
 }
 .formInput {

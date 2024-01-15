@@ -89,7 +89,7 @@ const Login = () => {
                     {errors.password && touched.password && <span>{errors.password}</span>}
                 </div>
                 <div className={styles.formButtons}>
-                    <Link to="/signup">Sign Up</Link>
+                    <Link to="/signup" style={{ color: '#4BCEAC' }}>Sign Up</Link>
                     <button type="submit">Login</button>
                 </div>
             </form>
