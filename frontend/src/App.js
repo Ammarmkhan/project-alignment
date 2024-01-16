@@ -25,10 +25,9 @@ import { useLocation } from 'react-router-dom';
 
 
 function MainContent({ isSidebar, setIsSidebar }) {
-  // Get current location
-  const location = useLocation();
 
   // Check if the current route is not login or signup
+  const location = useLocation();
   const showSidebarAndTopbar = location.pathname !== '/login' && location.pathname !== '/signup';
 
   return (

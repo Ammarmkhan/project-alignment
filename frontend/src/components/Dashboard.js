@@ -53,6 +53,9 @@ const Dashboard = () => {
         width: 1,
       });
 
+    // To hold workouts data
+    const [workouts, setWorkouts] = useState([]);
+    
     // For csv upload
     const [file, setFile] = useState();
 
@@ -64,153 +67,170 @@ const Dashboard = () => {
 
 
     const handleOnSubmit = (e) => {
-      e.preventDefault();
-  
-      if (file) {
-        fileReader.onload = function (event) {
-          const csvOutput = event.target.result;
-  
-          // Send csv data to backend
-          const handleCsvUpload = (csvData) => {
-            fetch('http://localhost:8000/fitness_api/workouts/', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'text/csv', // Set content type to text/csv
-                'Authorization': `Token ${token['workout-token']}`
-              },
-              body: csvData, // Send raw CSV text
-            })
-              .then((resp) => resp.json())
-              .catch((error) => console.log(error));
-          };
-  
-          // Call handleCsvUpload with the CSV data
-          handleCsvUpload(csvOutput);
-        };
-  
-        fileReader.readAsText(file);
-      }
+        e.preventDefault();
+
+        if (file) {
+            fileReader.onload = function (event) {
+                const csvOutput = event.target.result;
+
+                // Send csv data to backend
+                const handleCsvUpload = (csvData) => {
+                    fetch('http://localhost:8000/fitness_api/workouts/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'text/csv', // Set content type to text/csv
+                            'Authorization': `Token ${token['workout-token']}`
+                        },
+                        body: csvData, // Send raw CSV text
+                    })
+                        .then((resp) => resp.json())
+                        .then((workoutOutput) => {
+                            // Run the second fetch after the first one has completed
+                            fetch('http://localhost:8000/fitness_api/workouts/', {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Token ${token['workout-token']}`
+                                },
+                            })
+                                .then(resp => resp.json())
+                                .then(resp => {
+                                    setWorkouts(resp);
+                                })
+                                .catch(error => console.log(error));
+                        })
+                        .catch((error) => console.log(error));
+                };
+
+                // Call handleCsvUpload with the CSV data
+                handleCsvUpload(csvOutput);
+            };
+
+            fileReader.readAsText(file);
+        }
     };
-  return (
-    <Box m="20px">
-      {/* HEADER */}
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
 
-        <Box>
-            <Button
-                component="label"
-                variant="contained"
-                startIcon={<CloudUploadIcon />}
-                sx={{
-                    backgroundColor: colors.blueAccent[700],
-                    color: colors.grey[100],
-                    fontSize: "14px",
-                    fontWeight: "bold",
-                    padding: "10px 20px",
-                }}
+
+    return (
+        <Box m="20px">
+        {/* HEADER */}
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+            <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
+
+            <Box>
+                <Button
+                    component="label"
+                    variant="contained"
+                    startIcon={<CloudUploadIcon />}
+                    sx={{
+                        backgroundColor: colors.blueAccent[700],
+                        color: colors.grey[100],
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                        padding: "10px 20px",
+                    }}
+                >
+                    Upload file
+                    <VisuallyHiddenInput type="file" id="csvFileInput" 
+                        onChange={(e) => {
+                            handleOnChange(e);
+                            handleOnSubmit(e);
+                            notify("Upload successful", "success");
+                        }} />
+                </Button>
+                <ToastContainer />
+            </Box>
+        </Box>
+
+        {/* GRID & CHARTS */}
+        <Box
+            display="grid"
+            gridTemplateColumns="repeat(12, 1fr)"
+            gridAutoRows="127px"
+            gap="15px"
+        >
+            {/* ROW 1 */}
+            <Box
+            gridColumn="span 8"
+            gridRow="span 3"
+            backgroundColor={colors.primary[400]}
             >
-                Upload file
-                <VisuallyHiddenInput type="file" id="csvFileInput" 
-                    onChange={(e) => {
-                        handleOnChange(e);
-                        handleOnSubmit(e);
-                        notify("Upload successful", "success");
-                    }} />
-            </Button>
-            <ToastContainer />
-        </Box>
-      </Box>
-
-      {/* GRID & CHARTS */}
-      <Box
-        display="grid"
-        gridTemplateColumns="repeat(12, 1fr)"
-        gridAutoRows="127px"
-        gap="15px"
-      >
-        {/* ROW 1 */}
-        <Box
-          gridColumn="span 8"
-          gridRow="span 3"
-          backgroundColor={colors.primary[400]}
-        >
-          <Box
-            mt="25px"
-            p="0 30px"
-            display="flex "
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Box>
-              <Typography
-                variant="h3"
-                fontWeight="bold"
-                color={colors.greenAccent[500]}
-              >
-                Visual Exploration
-              </Typography>
+            <Box
+                mt="25px"
+                p="0 30px"
+                display="flex "
+                justifyContent="space-between"
+                alignItems="center"
+            >
+                <Box>
+                <Typography
+                    variant="h3"
+                    fontWeight="bold"
+                    color={colors.greenAccent[500]}
+                >
+                    Visual Exploration
+                </Typography>
+                </Box>
+                <Box>
+                <IconButton>
+                    <SaveOutlinedIcon
+                    sx={{ fontSize: "26px", color: colors.greenAccent[500] }}
+                    />
+                </IconButton>
+                </Box>
             </Box>
-            <Box>
-              <IconButton>
-                <SaveOutlinedIcon
-                  sx={{ fontSize: "26px", color: colors.greenAccent[500] }}
-                />
-              </IconButton>
-            </Box>
-          </Box>
-          <Box height="250px" m="-20px 0 0 0" p="30px">
-            <DynamicVisuals/>
-             {/* <LineChart isDashboard={true} /> */}
-          </Box>
-        </Box>
-        <Box
-          gridColumn="span 4"
-          gridRow="span 3"
-          backgroundColor={colors.primary[400]}
-          overflow="auto"
-        >
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            borderBottom={`4px solid ${colors.primary[500]}`}
-            colors={colors.grey[100]}
-            p="15px"
-          >
-            <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-              Textual Exploration
-            </Typography>
-          </Box>
             <Box height="250px" m="-20px 0 0 0" p="30px">
-                <TextOutput />
+                <DynamicVisuals/>
+                {/* <LineChart isDashboard={true} /> */}
+            </Box>
+            </Box>
+            <Box
+            gridColumn="span 4"
+            gridRow="span 3"
+            backgroundColor={colors.primary[400]}
+            overflow="auto"
+            >
+            <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                borderBottom={`4px solid ${colors.primary[500]}`}
+                colors={colors.grey[100]}
+                p="15px"
+            >
+                <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
+                Textual Exploration
+                </Typography>
+            </Box>
+                <Box height="250px" m="-20px 0 0 0" p="30px">
+                    <TextOutput />
+                </Box>
+            </Box>
+
+            {/* ROW 2 */}
+            <Box
+            gridColumn="span 8"
+            gridRow="span 1"
+            backgroundColor={colors.primary[400]}
+            >
+            <Box height="250px" m="-20px 0 0 0" p="30px">
+                <MainTextInput />
+            </Box>
+            
+            </Box>
+            <Box
+            gridColumn="span 4"
+            gridRow="span 1"
+            backgroundColor={colors.primary[400]}
+            >
+            <Box height="250px" m="-20px 0 0 0" p="30px">
+                <SecondaryTextInput />
+            </Box>
+            
             </Box>
         </Box>
-
-        {/* ROW 2 */}
-        <Box
-          gridColumn="span 8"
-          gridRow="span 1"
-          backgroundColor={colors.primary[400]}
-        >
-          <Box height="250px" m="-20px 0 0 0" p="30px">
-             <MainTextInput />
-          </Box>
-         
         </Box>
-        <Box
-          gridColumn="span 4"
-          gridRow="span 1"
-          backgroundColor={colors.primary[400]}
-        >
-        <Box height="250px" m="-20px 0 0 0" p="30px">
-            <SecondaryTextInput />
-        </Box>
-          
-        </Box>
-      </Box>
-    </Box>
-  );
-};
+    );
+    };
 
 export default Dashboard;
