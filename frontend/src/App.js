@@ -9,16 +9,12 @@ import Integrations from './components/Integrations';
 import Saved from './components/Saved';
 import Invoices from './components/Invoices';
 import Form from './components/Form';
-import Bar from './components/Bar';
-import Pie from './components/Pie';
-import LineChart from './components/LineChart';
 import Topbar from "./components/Topbar";
 import Sidebar from "./components/Sidebar";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 // import Calendar from './components/Calendar';
 import FAQ from './components/FAQ';
-import GeographyChart from './components/GeographyChart';
 import { useLocation } from 'react-router-dom';
 
 
@@ -44,12 +40,7 @@ function MainContent({ isSidebar, setIsSidebar }) {
             <Route path="/saved" element={<Saved />} />
             <Route path="/invoices" element={<Invoices />} />
             <Route path="/form" element={<Form />} />
-            <Route path="/bar" element={<Bar />} />
-            <Route path="/pie" element={<Pie />} />
-            <Route path="/line" element={<LineChart />} />
             <Route path="/faq" element={<FAQ />} />
-            {/* <Route path="/calendar" element={<Calendar />} /> */}
-            <Route path="/geography" element={<GeographyChart />} />
           </Routes>
         </CookiesProvider>
       </main>

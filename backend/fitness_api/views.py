@@ -11,6 +11,13 @@ import pandas as pd
 from .utils import clean_data
 from rest_framework.response import Response
 from rest_framework import status
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+import json
+from .openai_key import openai_key
+from openai import OpenAI
+
 
 # Create signup and login
 class UserViewSet(viewsets.ModelViewSet):
@@ -101,3 +108,36 @@ class WorkOutViewSet(viewsets.ModelViewSet):
                 import traceback
                 traceback.print_exc()
                 return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+## Analyze for Visual Output
+# ## For openAI API
+def analyze(user_input):
+    client = OpenAI(api_key=openai_key)
+    completion = client.chat.completions.create(
+        model="gpt-3.5-turbo-1106",
+        messages=[
+            {
+                "role": "system",
+                "content": "You are an assistant that considers user input and replies with the kind of visual they want to see. Your output will be a muscle name. The only acceptable outputs for 'muscle_name' are one word answers from the options 'chest', 'back', 'arms', 'abdominals', 'legs' & 'shoulders'. If the user throws in something unexpected, just return the word 'default' for muscle_name."
+            },
+            {
+                "role": "user",
+                "content": user_input
+            }
+        ]
+    )
+    return completion.choices[0].message.content
+
+# For visual
+@csrf_exempt
+@require_POST
+def analyze_paragraph(request):
+    # Get the paragraph from the request
+    paragraph = json.loads(request.body).get('paragraph', '')
+
+    # apply the openAI API function
+    word = analyze(paragraph)
+
+    # Return the word as a JSON response
+    return JsonResponse({'word': word})

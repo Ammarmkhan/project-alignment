@@ -1,27 +1,182 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import React, { useState } from 'react';
-// import Chart from 'chart.js/auto';
-// import moment from 'moment';
+import Chart from 'chart.js/auto';
+import moment from 'moment';
 import { useCookies } from 'react-cookie';
 import { useEffect } from 'react';
+import { processData } from "./processData";
 
 
 // to link to dashboard.js
 const DynamicVisuals = (props) => {
     
+
     // Console.log to check props
-    const handleClick = () => {
+    const handleClick = async () => {
+        const test = await analyzeParagraph('fsdf chest');
+        console.log(test);
         console.log(props);
     };
 
+
+    // Take user input for visual exploration
+    async function analyzeParagraph(input) {
+        const paragraph = input;
+
+        try {
+            // Make an AJAX request to the Django backend
+            const response = await fetch('http://localhost:8000/fitness_api/analyze-paragraph/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ paragraph }),
+            });
+
+            const data = await response.json();
+            return data.word;
+        } catch (error) {
+            console.error('Error:', error);
+            throw error; // Rethrow the error to be caught by the caller
+        }
+    };
+
+    // For form submit
+    const [selectedWorkout, setSelectedWorkout] = useState('default');
+    const handleInputChange = (event) => {
+            setSelectedWorkout(event.target.value);
+        }
+
+    const handleFormSubmit = async (event) => {
+        event.preventDefault();
+        
+        try {
+            const analyzedData = await analyzeParagraph(selectedWorkout);
+            const data_set = processData(props.workouts, analyzedData); // Do relevant processing
+            console.log(data_set);
+            
+            // createOrUpdateChart(data_set);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    // Process the data
+
+
+    // // For visualizing data
+    // const [chartInstance, setChartInstance] = useState(null);
+    // const [selectedWorkout, setSelectedWorkout] = useState('default');
+
+    // const createOrUpdateChart = (data_set) => {
+    //     const data = {
+    //         labels: data_set.labels,
+    //         datasets: [
+    //             {
+    //                 label: 'Workout Counts',
+    //                 data: data_set.data,
+    //                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
+    //                 borderColor: 'rgba(75, 192, 192, 1)',
+    //                 borderWidth: 1,
+    //                 type: 'bar',
+    //                 meta: data_set.exerciseData,
+    //             },
+    //             {
+    //                 label: 'For 85% gains',
+    //                 data: Array(data_set.labels.length).fill(10),
+    //                 borderColor: data_set.line_color,
+    //                 borderWidth: 1,
+    //                 type: 'line',
+    //             },
+    //         ],
+    //     };
+
+    //     const config = {
+    //         data: data,
+    //         options: {
+    //             scales: {
+    //                 y: {
+    //                     beginAtZero: true,
+    //                 },
+    //             }
+    //         },
+    //     };
+
+    //     if (chartInstance) {
+    //         chartInstance.data.labels = data_set.labels;
+    //         chartInstance.data.datasets[0].data = data_set.data;
+    //         chartInstance.data.datasets[1].borderColor = data_set.line_color; // Update line color
+    //         chartInstance.update();
+    //     } else {
+    //         const newChartInstance = new Chart(document.getElementById('myChart'), config);
+    //         setChartInstance(newChartInstance);
+    //     }
+    // };
+
+   
+
+    // // For input change
+    // const handleInputChange = (event) => {
+    //     setSelectedWorkout(event.target.value);
+    // }
+
+
+    // // Fetch token from cookies
+    // const [token] = useCookies(['workout-token']);
+
+    // // For openAI interpretation 
+    // async function analyzeParagraph(input) {
+    //     const paragraph = input;
+
+    //     try {
+    //         // Make an AJAX request to the Django backend
+    //         const response = await fetch('http://localhost:8000/fitness_api/analyze-paragraph/', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             body: JSON.stringify({ paragraph }),
+    //         });
+
+    //         const data = await response.json();
+    //         return data.word;
+    //     } catch (error) {
+    //         console.error('Error:', error);
+    //         throw error; // Rethrow the error to be caught by the caller
+    //     }
+    // };
+
+
     return (
-        <div>
-            <h1 onClick={handleClick}>Dynamic Visuals</h1>
-        </div>
-    );
-};
+                <div>
+                    <h1 onClick={handleClick}>Dynamic Visuals</h1>
+                    <form onSubmit={handleFormSubmit}> 
+                        <label>
+                            What kind of visualization would you like to see?
+                            <input type="text" value={selectedWorkout} onChange={handleInputChange} />
+                        </label>
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+            );
+        };
 
 export default DynamicVisuals;
+
+/// After
+{/* <div>
+<form onSubmit={handleFormSubmit}> 
+    <label>
+        What kind of visualization would you like to see?
+        <input type="text" value={selectedWorkout} onChange={handleInputChange} />
+    </label>
+    <button type="submit">Submit</button>
+</form>
+</div>
+{/* Render the chart canvas */}
+{/* <canvas id="myChart"></canvas> */} 
+
+////
 
 
 // // See below for inspiration

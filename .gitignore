@@ -35,3 +35,6 @@ __pycache__/
 # Ignore build artifacts for React
 /frontend/build
 /frontend/dist
+
+# Ignore openai key
+backend/fitness_api/openai_key.py

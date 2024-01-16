@@ -9,7 +9,6 @@ import TrafficIcon from "@mui/icons-material/Traffic";
 import Header from "./Header";
 // import LineChart from "./LineChart";
 // import GeographyChart from "./GeographyChart";
-import BarChart from "./BarChart";
 import StatBox from "./StatBox";
 import ProgressCircle from "./ProgressCircle";
 import AdsClickOutlinedIcon from '@mui/icons-material/AdsClickOutlined';
