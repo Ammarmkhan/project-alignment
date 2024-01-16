@@ -1,8 +1,22 @@
+import { Box, Typography, useTheme } from "@mui/material";
+import React, { useState } from 'react';
+// import Chart from 'chart.js/auto';
+// import moment from 'moment';
+import { useCookies } from 'react-cookie';
+import { useEffect } from 'react';
+
+
 // to link to dashboard.js
-const DynamicVisuals = () => {
+const DynamicVisuals = (props) => {
+    
+    // Console.log to check props
+    const handleClick = () => {
+        console.log(props);
+    };
+
     return (
         <div>
-            <h1>Dynamic Visuals</h1>
+            <h1 onClick={handleClick}>Dynamic Visuals</h1>
         </div>
     );
 };
@@ -128,3 +142,6 @@ export default DynamicVisuals;
 // };
 
 // export default LineChart;
+
+
+

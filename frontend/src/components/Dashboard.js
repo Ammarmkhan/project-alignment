@@ -54,6 +54,9 @@ const Dashboard = () => {
       });
 
     // To hold workouts data
+    // const [workouts, setWorkouts] = useCookies(['workout-data']);
+    // const [workouts, setWorkouts] = useState(cookies['workout-data'] || []); ///// YOU WERE HERE.
+
     const [workouts, setWorkouts] = useState([]);
     
     // For csv upload
@@ -180,8 +183,7 @@ const Dashboard = () => {
                 </Box>
             </Box>
             <Box height="250px" m="-20px 0 0 0" p="30px">
-                <DynamicVisuals/>
-                {/* <LineChart isDashboard={true} /> */}
+                <DynamicVisuals workouts={workouts}/>
             </Box>
             </Box>
             <Box
