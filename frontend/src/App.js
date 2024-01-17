@@ -8,13 +8,10 @@ import Dashboard from './components/Dashboard';
 import Integrations from './components/Integrations';
 import Saved from './components/Saved';
 import Invoices from './components/Invoices';
-import Form from './components/Form';
 import Topbar from "./components/Topbar";
 import Sidebar from "./components/Sidebar";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
-// import Calendar from './components/Calendar';
-import FAQ from './components/FAQ';
 import { useLocation } from 'react-router-dom';
 
 
@@ -39,8 +36,6 @@ function MainContent({ isSidebar, setIsSidebar }) {
             <Route path="/integrations" element={<Integrations />} />
             <Route path="/saved" element={<Saved />} />
             <Route path="/invoices" element={<Invoices />} />
-            <Route path="/form" element={<Form />} />
-            <Route path="/faq" element={<FAQ />} />
           </Routes>
         </CookiesProvider>
       </main>
@@ -58,7 +53,7 @@ function App() {
   const [isSidebar, setIsSidebar] = useState(true);
 
   // For main text input
-  const [selectedWorkout, setSelectedWorkout] = useState('default');
+  const [selectedWorkout, setSelectedWorkout] = useState('');
 
   return (
     <BrowserRouter>

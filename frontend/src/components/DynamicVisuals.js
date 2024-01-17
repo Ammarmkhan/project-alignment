@@ -70,7 +70,6 @@ const DynamicVisuals = (props) => {
     };
 
     // Create chart when form submission triggered
-    // const [selectedWorkout, setSelectedWorkout] = useState('default');
     const { selectedWorkout, setSelectedWorkout } = React.useContext(WorkoutContext);
 
 
@@ -147,7 +146,9 @@ const DynamicVisuals = (props) => {
 
     return (
                 <div>
-                    <canvas id="myChart"></canvas>
+                    <div>
+                        <canvas id="myChart" width="500" height="390"></canvas>
+                    </div>
                     <div className='chatPage-div'>
                         <MainContainer>
                             <ChatContainer>

@@ -1,23 +1,9 @@
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../theme";
-import { mockTransactions } from "../data/mockData";
-import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import EmailIcon from "@mui/icons-material/Email";
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import TrafficIcon from "@mui/icons-material/Traffic";
 import Header from "./Header";
-// import LineChart from "./LineChart";
-// import GeographyChart from "./GeographyChart";
-import StatBox from "./StatBox";
-import ProgressCircle from "./ProgressCircle";
-import AdsClickOutlinedIcon from '@mui/icons-material/AdsClickOutlined';
-import UploadOutlinedIcon from '@mui/icons-material/UploadOutlined';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import DynamicVisuals from "./DynamicVisuals";
-import MainTextInput from "./MainTextInput";
 import TextOutput from "./TextOutput";
-import SecondaryTextInput from "./SecondaryTextInput";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useState } from "react";
@@ -155,7 +141,7 @@ const Dashboard = () => {
             <Box
             gridColumn="span 8"
             gridRow="span 4"
-            backgroundColor={colors.primary[400]}
+            backgroundColor='white'
             >
             <Box
                 mt="25px"
@@ -188,7 +174,7 @@ const Dashboard = () => {
             <Box
             gridColumn="span 4"
             gridRow="span 4"
-            backgroundColor={colors.primary[400]}
+            backgroundColor='white'
             overflow="auto"
             >
             <Box
