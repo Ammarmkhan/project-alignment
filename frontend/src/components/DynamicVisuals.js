@@ -1,4 +1,4 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { Avatar, Box, Typography, useTheme } from "@mui/material";
 import React, { useState } from 'react';
 import Chart from 'chart.js/auto';
 import moment from 'moment';
@@ -8,6 +8,9 @@ import { processData } from "./processData";
 import { red } from "@mui/material/colors";
 import { analyzeParagraph } from "./analyzeParagraph";
 import { WorkoutContext } from '../App'; // import the context
+import { MainContainer, ChatContainer, MessageInput } from '@chatscope/chat-ui-kit-react';
+import styles from '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
+import './chat.css'
 
 
 
@@ -73,11 +76,11 @@ const DynamicVisuals = (props) => {
 
     
     const handleInputChange = (event) => {
-            setSelectedWorkout(event.target.value);
+            setSelectedWorkout(event);
         }
 
     const handleFormSubmit = async (event) => {
-        event.preventDefault();
+        // event.preventDefault();
         
         try {
             const analyzedData = await analyzeParagraph(selectedWorkout);
@@ -145,13 +148,22 @@ const DynamicVisuals = (props) => {
     return (
                 <div>
                     <canvas id="myChart"></canvas>
-                    <form onSubmit={handleFormSubmit}> 
+                    {/* <form onSubmit={handleFormSubmit}> 
                         <label>
                             What kind of visualization would you like to see?
                             <input type="text" value={selectedWorkout} onChange={handleInputChange} />
                         </label>
                         <button type="submit">Submit</button>
-                    </form>
+                    </form> */}
+
+                    <div className='chatPage-div'>
+                        <MainContainer>
+                            <ChatContainer>
+                                <MessageInput placeholder={selectedWorkout} onChange={handleInputChange} onSend={handleFormSubmit}/>
+                            </ChatContainer>
+                        </MainContainer>
+
+                    </div>
                 </div>
             );
         };
