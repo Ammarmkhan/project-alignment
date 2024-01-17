@@ -6,6 +6,7 @@ import { WorkoutContext } from '../App';
 import { MainContainer, ChatContainer, MessageInput, MessageList, Message, TypingIndicator } from '@chatscope/chat-ui-kit-react';
 import styles from '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 import { Avatar } from '@mui/material';
+import './chat.css'
 
 
 
@@ -71,24 +72,17 @@ const TextOutput = (props) => {
     };
 
     return (
-        <div>
+        <div className='followup-Chat'>
             <MessageList typingIndicator={isProcessing ? <TypingIndicator content="August is processing" /> : null}>
                 <Message model={{
                     message: followupResponse,
                     direction: 'incoming',
                 }} />
             </MessageList>
-            {/* <form onSubmit={handleFollowupFormSubmit}> 
-                <label>
-                    What would you like to ask of the visualization?
-                    <input type="text" value={subQuestion} onChange={handleSubQuestion} />
-                </label>
-                <button type="submit">Submit</button>
-            </form> */}
             <div>
                 <MainContainer>
                     <ChatContainer>
-                        <MessageInput placeholder={subQuestion} onChange={handleSubQuestion} onSend={handleFollowupFormSubmit}/>
+                        <MessageInput placeholder={subQuestion} onChange={handleSubQuestion} onSend={handleFollowupFormSubmit} attachButton={false}/>
                     </ChatContainer>
                 </MainContainer>
             </div>

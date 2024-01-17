@@ -148,18 +148,10 @@ const DynamicVisuals = (props) => {
     return (
                 <div>
                     <canvas id="myChart"></canvas>
-                    {/* <form onSubmit={handleFormSubmit}> 
-                        <label>
-                            What kind of visualization would you like to see?
-                            <input type="text" value={selectedWorkout} onChange={handleInputChange} />
-                        </label>
-                        <button type="submit">Submit</button>
-                    </form> */}
-
                     <div className='chatPage-div'>
                         <MainContainer>
                             <ChatContainer>
-                                <MessageInput placeholder={selectedWorkout} onChange={handleInputChange} onSend={handleFormSubmit}/>
+                                <MessageInput placeholder={selectedWorkout} onChange={handleInputChange} onSend={handleFormSubmit} attachButton={false}/>
                             </ChatContainer>
                         </MainContainer>
 
