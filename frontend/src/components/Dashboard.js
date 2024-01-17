@@ -154,7 +154,7 @@ const Dashboard = () => {
             {/* ROW 1 */}
             <Box
             gridColumn="span 8"
-            gridRow="span 3"
+            gridRow="span 4"
             backgroundColor={colors.primary[400]}
             >
             <Box
@@ -187,7 +187,7 @@ const Dashboard = () => {
             </Box>
             <Box
             gridColumn="span 4"
-            gridRow="span 3"
+            gridRow="span 4"
             backgroundColor={colors.primary[400]}
             overflow="auto"
             >
@@ -204,31 +204,11 @@ const Dashboard = () => {
                 </Typography>
             </Box>
                 <Box height="250px" m="-20px 0 0 0" p="30px">
-                    <TextOutput />
+                    <TextOutput workouts={workouts}/>
                 </Box>
             </Box>
 
-            {/* ROW 2 */}
-            <Box
-            gridColumn="span 8"
-            gridRow="span 1"
-            backgroundColor={colors.primary[400]}
-            >
-            <Box height="250px" m="-20px 0 0 0" p="30px">
-                <MainTextInput />
-            </Box>
-            
-            </Box>
-            <Box
-            gridColumn="span 4"
-            gridRow="span 1"
-            backgroundColor={colors.primary[400]}
-            >
-            <Box height="250px" m="-20px 0 0 0" p="30px">
-                <SecondaryTextInput />
-            </Box>
-            
-            </Box>
+      
         </Box>
         </Box>
     );

@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
 import { CookiesProvider } from 'react-cookie';
-import { useState } from 'react';
+import { useState, createContext } from 'react';
 import Dashboard from './components/Dashboard';
 import Integrations from './components/Integrations';
 import Saved from './components/Saved';
@@ -48,17 +48,26 @@ function MainContent({ isSidebar, setIsSidebar }) {
   );
 }
 
+// For main text input
+export const WorkoutContext = createContext();
+
+
 function App() {
   // For theme and sidebar toggling
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
+
+  // For main text input
+  const [selectedWorkout, setSelectedWorkout] = useState('default');
 
   return (
     <BrowserRouter>
       <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <MainContent isSidebar={isSidebar} setIsSidebar={setIsSidebar} />
+          <WorkoutContext.Provider value={{ selectedWorkout, setSelectedWorkout }}>
+            <MainContent isSidebar={isSidebar} setIsSidebar={setIsSidebar} />
+          </WorkoutContext.Provider>
         </ThemeProvider>
       </ColorModeContext.Provider>
     </BrowserRouter>

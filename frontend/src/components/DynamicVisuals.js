@@ -6,6 +6,9 @@ import { useCookies } from 'react-cookie';
 import { useEffect } from 'react';
 import { processData } from "./processData";
 import { red } from "@mui/material/colors";
+import { analyzeParagraph } from "./analyzeParagraph";
+import { WorkoutContext } from '../App'; // import the context
+
 
 
 
@@ -15,29 +18,6 @@ const DynamicVisuals = (props) => {
 
     // Fetch token from cookies
     const [token] = useCookies(['workout-token']);
-
-    // Take user input for visual exploration
-    async function analyzeParagraph(input) {
-        const paragraph = input;
-
-        try {
-            // Make an AJAX request to the Django backend
-            const response = await fetch('http://localhost:8000/fitness_api/analyze-paragraph/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ paragraph }),
-            });
-
-            const data = await response.json();
-            return data.word;
-        } catch (error) {
-            console.error('Error:', error);
-            throw error; // Rethrow the error to be caught by the caller
-        }
-    };
-
     
     // Code to create chart based on user input
     const [chartInstance, setChartInstance] = useState(null);
@@ -87,7 +67,11 @@ const DynamicVisuals = (props) => {
     };
 
     // Create chart when form submission triggered
-    const [selectedWorkout, setSelectedWorkout] = useState('...');
+    // const [selectedWorkout, setSelectedWorkout] = useState('default');
+    const { selectedWorkout, setSelectedWorkout } = React.useContext(WorkoutContext);
+
+
+    
     const handleInputChange = (event) => {
             setSelectedWorkout(event.target.value);
         }
@@ -152,7 +136,7 @@ const DynamicVisuals = (props) => {
             const analyzedData = await analyzeParagraph(selectedWorkout);
             const data_set = processData(props.workouts, analyzedData);
 
-            const followupReply = await analyzeFollowup(data_set, subQuestion);
+            await analyzeFollowup(data_set, subQuestion);
         } catch (error) {
             console.error('Error:', error);
         }
@@ -168,16 +152,6 @@ const DynamicVisuals = (props) => {
                         </label>
                         <button type="submit">Submit</button>
                     </form>
-                    <div>
-                        <form onSubmit={handleFollowupFormSubmit}> 
-                            <label>
-                                What would you like to ask of the visualization?
-                                <input type="text" value={subQuestion} onChange={handleSubQuestion} />
-                            </label>
-                            <button type="submit">Submit</button>
-                        </form>
-                        <p id="followupResponse"></p>
-                    </div>
                 </div>
             );
         };
