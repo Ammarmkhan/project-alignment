@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { processData } from "./processData";
 import { analyzeParagraph } from "./analyzeParagraph";
 import { WorkoutContext } from '../App'; 
-import { MainContainer, ChatContainer, MessageInput, MessageList, Message } from '@chatscope/chat-ui-kit-react';
+import { MainContainer, ChatContainer, MessageInput, MessageList, Message, TypingIndicator } from '@chatscope/chat-ui-kit-react';
 import styles from '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 import { Avatar } from '@mui/material';
 
@@ -16,6 +16,9 @@ const TextOutput = (props) => {
     // For follow-up Questions
     const [subQuestion, setSubQuestion] = useState('');
     const [followupResponse, setFollowupResponse] = useState('');
+
+    // To show August is processing
+    const [isProcessing, setIsProcessing] = useState(false);
 
     async function analyzeFollowup (json_object, sub_question) {
         const sub_q = sub_question;
@@ -35,10 +38,9 @@ const TextOutput = (props) => {
 
             // Select the DOM element where you want to display the data
             setFollowupResponse(data.responseR.replace(/\n/g, '<br>'));
-            // const outputElement = document.getElementById('followupResponse');
 
-            // // Update the content of the selected DOM element
-            // outputElement.innerHTML = data.responseR.replace(/\n/g, '<br>');
+            // Processing is done, so set isProcessing to false
+            setIsProcessing(false);
 
         } catch (error) {
             console.error('Error:', error);
@@ -53,7 +55,9 @@ const TextOutput = (props) => {
 
     // To submit follow-up question form.
     const handleFollowupFormSubmit = async (event) => {
-        // event.preventDefault();
+        
+        // Processing starts here, so set isProcessing to true
+        setIsProcessing(true);
         
         try {
             // to send back json
@@ -68,8 +72,7 @@ const TextOutput = (props) => {
 
     return (
         <div>
-            <p id="followupResponse"></p>
-            <MessageList>
+            <MessageList typingIndicator={isProcessing ? <TypingIndicator content="August is processing" /> : null}>
                 <Message model={{
                     message: followupResponse,
                     direction: 'incoming',
