@@ -1,8 +1,9 @@
+import React from 'react';
+
+
 const MainTextInput = () => {
     return (
-        <div>
-            <h1>Main Text Input</h1>
-        </div>
+       <h1>here</h1>
     );
 };
 

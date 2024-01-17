@@ -141,3 +141,60 @@ def analyze_paragraph(request):
 
     # Return the word as a JSON response
     return JsonResponse({'word': word})
+
+# Answer follow-up question
+def respond(user_input):
+    client = OpenAI(api_key=openai_key)
+    completion = client.chat.completions.create(
+        model="gpt-3.5-turbo-1106",
+        messages=[
+            {
+                "role": "system",
+                "content": "You are an assistant that will receive two inputs.\n\n"
+                           "The first a json object. It will start with 'json||' and end with '||json'\n\n"
+                           "The second, a question regarding that json object. It will start with '.q||' and end with '||q'\n\n"
+                           "Answer the best you can. If the question relates to time, respond by week unless specifically requested.\n\n"
+                           "Good Sample\n"
+                           "For the week '2023-12-11'\n"
+                           "...\n"
+                           "For the week '2023-12-04'\n"
+                           "...\n\n"
+                           "Bad Sample\n"
+                           "For the week '2023-10-02' to '2023-10-30':\n"
+                           "- Romanian Deadlift (Dumbbell): 8, 4\n"
+                           "- Lat Pulldown (Cable): 4, 4, 4, 4\n"
+                           "- Incline Row (Dumbbell): 4, 4\n"
+                           "- Face Pull (Cable): 4, 8\n"
+                           "- Triceps Extension (Dumbbell): 4\n"
+                           "- Triceps Pushdown (Cable - Straight Bar): 4, 4\n\n"
+                           "If someone asks a question regarding a month without mentioning year, you can assume they mean the most recent year.\n"
+                           "If you're not sure. Just ask for clarification.\n\n"
+            },
+            {"role": "user", "content": user_input}
+        ]
+    )
+
+    # Return the response content
+    return completion.choices[0].message.content
+
+
+
+# Send back followup question
+@csrf_exempt
+@require_POST
+def followup_question(request):
+    # Get the data from the request and arrange in proper input
+    sub_q = json.loads(request.body).get('sub_q', '')
+    json_o = json.loads(request.body).get('json_o', '')
+
+    input = 'json||' + str(json_o) + '||json' + '.q||' + sub_q + '||q'; 
+
+    # apply the openAI API function
+    response = respond(input)
+
+    # Convert to dict
+    result_dict = {'responseR': response}
+
+    # Return a JSON response
+    return JsonResponse(result_dict, status=200)
+
