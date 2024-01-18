@@ -9,7 +9,6 @@ import { red } from "@mui/material/colors";
 import { analyzeParagraph } from "./analyzeParagraph";
 import { WorkoutContext } from '../App'; // import the context
 import { MainContainer, ChatContainer, MessageInput } from '@chatscope/chat-ui-kit-react';
-import styles from '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 import './chat.css'
 
 
@@ -51,6 +50,7 @@ const DynamicVisuals = (props) => {
         const config = {
             data: data,
             options: {
+                responsive: false, // Add this line to prevent the chart from being responsive
                 scales: {
                     y: {
                         beginAtZero: true,

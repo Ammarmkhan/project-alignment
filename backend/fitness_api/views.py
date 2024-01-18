@@ -17,6 +17,8 @@ from django.views.decorators.http import require_POST
 import json
 from .openai_key import openai_key
 from openai import OpenAI
+from django.db import transaction
+
 
 
 # Create signup and login
@@ -35,6 +37,7 @@ class WorkOutViewSet(viewsets.ModelViewSet):
     parser_classes = (FileUploadParser,)
     
     # To upload csv files
+    @transaction.atomic # so POST request finished before GET request
     def create(self, request, *args, **kwargs):
             try:
                 # Extract the user from the request

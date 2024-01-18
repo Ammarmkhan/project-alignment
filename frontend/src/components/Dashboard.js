@@ -38,10 +38,6 @@ const Dashboard = () => {
         width: 1,
       });
 
-    // To hold workouts data
-    // const [workouts, setWorkouts] = useCookies(['workout-data']);
-    // const [workouts, setWorkouts] = useState(cookies['workout-data'] || []); ///// YOU WERE HERE.
-
     const [workouts, setWorkouts] = useState([]);
     
     // For csv upload
@@ -49,18 +45,15 @@ const Dashboard = () => {
 
     const fileReader = new FileReader();
     
-    const handleOnChange = (e) => {
-        setFile(e.target.files[0]);
-    };
-
-
-    const handleOnSubmit = (e) => {
-        e.preventDefault();
-
+    const handleFileSelection = (e) => {
+        const file = e.target.files[0];
+        setFile(file);
+    
         if (file) {
+            const fileReader = new FileReader();
+            notify("Upload successful", "success");
+    
             fileReader.onload = function (event) {
-                const csvOutput = event.target.result;
-
                 // Send csv data to backend
                 const handleCsvUpload = (csvData) => {
                     fetch('http://localhost:8000/fitness_api/workouts/', {
@@ -71,9 +64,10 @@ const Dashboard = () => {
                         },
                         body: csvData, // Send raw CSV text
                     })
-                        .then((resp) => resp.json())
-                        .then((workoutOutput) => {
-                            // Run the second fetch after the first one has completed
+                    .then((resp) => resp.json())
+                    .then(() => {
+                        // Delay the GET request by 2 seconds
+                        setTimeout(() => {
                             fetch('http://localhost:8000/fitness_api/workouts/', {
                                 method: 'GET',
                                 headers: {
@@ -81,19 +75,26 @@ const Dashboard = () => {
                                     'Authorization': `Token ${token['workout-token']}`
                                 },
                             })
-                                .then(resp => resp.json())
-                                .then(resp => {
-                                    setWorkouts(resp);
-                                })
-                                .catch(error => console.log(error));
-                        })
-                        .catch((error) => console.log(error));
+                            .then(resp => resp.json())
+                            .then(resp => {
+                                setWorkouts(resp);
+                            })
+                            .catch(error => {
+                                console.log(error);
+                                notify('upload not successful', 'error');
+                            });
+                        }, 2000); // 2000 milliseconds = 2 seconds
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        notify('upload not successful', 'error');
+                    });
                 };
-
+    
                 // Call handleCsvUpload with the CSV data
-                handleCsvUpload(csvOutput);
+                handleCsvUpload(event.target.result);
             };
-
+    
             fileReader.readAsText(file);
         }
     };
@@ -121,9 +122,7 @@ const Dashboard = () => {
                     Upload file
                     <VisuallyHiddenInput type="file" id="csvFileInput" 
                         onChange={(e) => {
-                            handleOnChange(e);
-                            handleOnSubmit(e);
-                            notify("Upload successful", "success");
+                            handleFileSelection(e);
                         }} />
                 </Button>
                 <ToastContainer />
