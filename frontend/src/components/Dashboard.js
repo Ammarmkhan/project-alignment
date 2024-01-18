@@ -4,15 +4,16 @@ import Header from "./Header";
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import DynamicVisuals from "./DynamicVisuals";
 import TextOutput from "./TextOutput";
-import { useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { useState } from "react";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { notify } from './toast';
-import react from "react";
+import { analyzeParagraph } from "./analyzeParagraph";
+import { WorkoutContext } from '../App'; 
+import React, { useEffect, useState } from "react";
+
 
 const Dashboard = () => {
 
@@ -101,6 +102,17 @@ const Dashboard = () => {
         }
     };
 
+    // // To update title
+    // const [title, setTitle] = useState('Visual Exploration');
+    // const { selectedWorkout, setSelectedWorkout } = React.useContext(WorkoutContext);
+    // useEffect(() => {
+    //     const fetchTitle = async () => {
+    //         const newTitle = await analyzeParagraph(setWorkouts);
+    //         setTitle(newTitle);
+    //     };
+    //     fetchTitle();
+    // }, ); ////// stuck here
+
 
     return (
         <Box m="20px">
@@ -157,7 +169,7 @@ const Dashboard = () => {
                     fontWeight="bold"
                     color={colors.greenAccent[500]}
                 >
-                    Visual Exploration 
+                    Visual Exploration
                 </Typography>
                 </Box>
                 <Box>

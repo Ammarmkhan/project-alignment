@@ -11,10 +11,6 @@ import { WorkoutContext } from '../App'; // import the context
 import { MainContainer, ChatContainer, MessageInput } from '@chatscope/chat-ui-kit-react';
 import './chat.css'
 
-
-
-
-
 // to link to dashboard.js
 const DynamicVisuals = (props) => {
 
@@ -24,7 +20,7 @@ const DynamicVisuals = (props) => {
     // Code to create chart based on user input
     const [chartInstance, setChartInstance] = useState(null);
 
-    const createOrUpdateChart = (data_set) => {
+    const createOrUpdateChart = (data_set, chartTitle) => {
         const data = {
                 labels: data_set.labels,
                 datasets: [
@@ -56,12 +52,19 @@ const DynamicVisuals = (props) => {
                         beginAtZero: true,
                     },
                 },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: `Muscle: ${chartTitle}`
+                    },
+                },
             },
         };
 
         if (chartInstance) {
             chartInstance.data.labels = data_set.labels;
             chartInstance.data.datasets[0].data = data_set.data;
+            chartInstance.options.plugins.title.text = `Muscle: ${chartTitle}`; 
             chartInstance.update();
         } else {
             const newChartInstance = new Chart(document.getElementById('myChart'), config);
@@ -84,7 +87,7 @@ const DynamicVisuals = (props) => {
         try {
             const analyzedData = await analyzeParagraph(selectedWorkout);
             const data_set = processData(props.workouts, analyzedData); // Do relevant processing
-            createOrUpdateChart(data_set);
+            createOrUpdateChart(data_set, analyzedData);
         } catch (error) {
             console.error('Error:', error);
         }
@@ -144,20 +147,19 @@ const DynamicVisuals = (props) => {
     };
 
     return (
-                <div>
-                    <div>
-                        <canvas id="myChart" width="500" height="390"></canvas>
-                    </div>
-                    <div className='chatPage-div'>
-                        <MainContainer>
-                            <ChatContainer>
-                                <MessageInput placeholder={selectedWorkout} onChange={handleInputChange} onSend={handleFormSubmit} attachButton={false}/>
-                            </ChatContainer>
-                        </MainContainer>
-
-                    </div>
-                </div>
-            );
-        };
+        <div>
+            <div>
+                <canvas id="myChart" width="500" height="390"></canvas>
+            </div>
+            <div className='chatPage-div'>
+                <MainContainer>
+                    <ChatContainer>
+                        <MessageInput placeholder={selectedWorkout} onChange={handleInputChange} onSend={handleFormSubmit} attachButton={false}/>
+                    </ChatContainer>
+                </MainContainer>
+            </div>
+        </div>
+    );
+};
 
 export default DynamicVisuals;
