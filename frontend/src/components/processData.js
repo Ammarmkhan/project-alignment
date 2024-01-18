@@ -9,11 +9,30 @@ export const processData = (data, muscle) => {
     const filteredEntries = data.filter((entry) => {
         switch (muscle) {
             case 'chest':
+            case 'clavicular_head':
+            case 'sternal_head':
+            case 'abdominal_head':
+            case 'lats':
             case 'back':
-            case 'arms':
-            case 'abdominals':
+            case 'mid_back':
+            case 'mid_traps':
+            case 'rhomboids':
+            case 'biceps':
+            case 'triceps':
+            case 'shoulder':
+            case 'anterior_deltoids':
+            case 'lateral_deltoids':
+            case 'posterior_deltoids':
+            case 'upper_traps':
+            case 'quads':
+            case 'hamstrings':
+            case 'glutes':
+            case 'adductors':
             case 'legs':
-            case 'shoulders':
+            case 'calves':
+            case 'abdominals':
+            case 'arms':
+            case 'aerobics':
                 return entry[muscle] === true;
             default:
                 return true;

@@ -7,7 +7,6 @@ import { useState, createContext } from 'react';
 import Dashboard from './components/Dashboard';
 import Integrations from './components/Integrations';
 import Saved from './components/Saved';
-import Invoices from './components/Invoices';
 import Topbar from "./components/Topbar";
 import Sidebar from "./components/Sidebar";
 import { CssBaseline, ThemeProvider } from "@mui/material";
@@ -35,7 +34,6 @@ function MainContent({ isSidebar, setIsSidebar }) {
             <Route path="/login" element={<Login />} />
             <Route path="/integrations" element={<Integrations />} />
             <Route path="/saved" element={<Saved />} />
-            <Route path="/invoices" element={<Invoices />} />
           </Routes>
         </CookiesProvider>
       </main>

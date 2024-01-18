@@ -18,8 +18,9 @@ import json
 from .openai_key import openai_key
 from openai import OpenAI
 from django.db import transaction
+import logging
 
-
+logging.basicConfig(level=logging.INFO)
 
 # Create signup and login
 class UserViewSet(viewsets.ModelViewSet):
@@ -37,7 +38,7 @@ class WorkOutViewSet(viewsets.ModelViewSet):
     parser_classes = (FileUploadParser,)
     
     # To upload csv files
-    @transaction.atomic # so POST request finished before GET request
+    @transaction.atomic # so POST request finished before GET begins.
     def create(self, request, *args, **kwargs):
             try:
                 # Extract the user from the request
@@ -55,6 +56,19 @@ class WorkOutViewSet(viewsets.ModelViewSet):
                 
                 # clean the data, removing duplicates and doing relevant conversions
                 result = clean_data(df)
+
+                # Check for Nans
+                def check_for_nans(result):
+                    if isinstance(result, pd.DataFrame):
+                        return result.isnull().sum().to_dict()
+                    else:
+                        raise ValueError("Input should be a pandas DataFrame")
+
+                # usage
+                nan_counts = check_for_nans(result)
+
+                logging.info(nan_counts)
+
                 
                 # Save each workout with the associated user
                 for index, row in result.iterrows():
@@ -72,11 +86,29 @@ class WorkOutViewSet(viewsets.ModelViewSet):
                     workout_notes_value = row['Workout Notes']
                     rpe_value = row['RPE']
                     chest = row['Chest']
+                    clavicular_head = row['Clavicular Head']
+                    sternal_head = row['Sternal Head']
+                    abdominal_head = row['Abdominal Head']
+                    lats = row['Lats']
                     back = row['Back']
-                    arms = row['Arms']
-                    abdominals = row['Abdominals']
+                    mid_back = row['Mid Back']
+                    mid_traps = row['Mid Traps']
+                    rhomboids = row['Rhomboids']
+                    biceps = row['Biceps']
+                    triceps = row['Triceps']
+                    shoulder = row['Shoulder']
+                    anterior_deltoids = row['Anterior Deltoids']
+                    lateral_deltoids = row['Lateral Deltoids']
+                    posterior_deltoids = row['Posterior Deltoids']
+                    upper_traps = row['Upper Traps']
+                    quads = row['Quads']
+                    hamstrings = row['Hamstrings']
+                    glutes = row['Glutes']
+                    adductors = row['Adductors']
                     legs = row['Legs']
-                    shoulders = row['Shoulders']
+                    calves = row['Calves']
+                    abdominals = row['Abdominals']
+
 
                     # Creating workout_data dictionary
                     workout_data = {
@@ -94,11 +126,28 @@ class WorkOutViewSet(viewsets.ModelViewSet):
                         'workout_notes': workout_notes_value,
                         'rpe': rpe_value,
                         'chest': chest,
+                        'clavicular_head': clavicular_head,
+                        'sternal_head': sternal_head,
+                        'abdominal_head': abdominal_head,
+                        'lats': lats,
                         'back': back,
-                        'arms': arms,
-                        'abdominals': abdominals,
+                        'mid_back': mid_back,
+                        'mid_traps': mid_traps,
+                        'rhomboids': rhomboids,
+                        'biceps': biceps,
+                        'triceps': triceps,
+                        'shoulder': shoulder,
+                        'anterior_deltoids': anterior_deltoids,
+                        'lateral_deltoids': lateral_deltoids,
+                        'posterior_deltoids': posterior_deltoids,
+                        'upper_traps': upper_traps,
+                        'quads': quads,
+                        'hamstrings': hamstrings,
+                        'glutes': glutes,
+                        'adductors': adductors,
                         'legs': legs,
-                        'shoulders': shoulders,
+                        'calves': calves,
+                        'abdominals': abdominals
                     }
 
                     # Create a new instance of PersonalWorkouts and save it
@@ -122,7 +171,7 @@ def analyze(user_input):
         messages=[
             {
                 "role": "system",
-                "content": "You are an assistant that considers user input and replies with the kind of visual they want to see. Your output will be a muscle name. The only acceptable outputs for 'muscle_name' are one word answers from the options 'chest', 'back', 'arms', 'abdominals', 'legs' & 'shoulders'. If the user throws in something unexpected, just return the word 'default' for muscle_name."
+                "content": "You are an assistant that considers user input and replies with the kind of visual they want to see. Your output will be a muscle name. The only acceptable outputs for 'muscle_name' are one word answers from the options 'chest', 'clavicular_head', 'sternal_head', 'abdominal_head', 'lats', 'back', 'mid_back', 'mid_traps', 'rhomboids', 'biceps', 'triceps', 'shoulder', 'anterior_deltoids', 'lateral_deltoids', 'posterior_deltoids', 'upper_traps', 'quads', 'hamstrings', 'glutes', 'adductors', 'legs', 'calves', 'abdominals', 'aerobics'. If the user throws in something unexpected, just return the word 'default' for muscle_name."
             },
             {
                 "role": "user",

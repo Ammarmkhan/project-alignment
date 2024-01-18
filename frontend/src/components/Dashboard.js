@@ -12,9 +12,11 @@ import { styled } from '@mui/material/styles';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { notify } from './toast';
+import react from "react";
 
 const Dashboard = () => {
 
+    
     // For theme setup
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -51,7 +53,6 @@ const Dashboard = () => {
     
         if (file) {
             const fileReader = new FileReader();
-            notify("Upload successful", "success");
     
             fileReader.onload = function (event) {
                 // Send csv data to backend
@@ -76,8 +77,9 @@ const Dashboard = () => {
                                 },
                             })
                             .then(resp => resp.json())
-                            .then(resp => {
+                            .then(async resp => {
                                 setWorkouts(resp);
+                                notify("Upload successful", "success");
                             })
                             .catch(error => {
                                 console.log(error);
@@ -155,7 +157,7 @@ const Dashboard = () => {
                     fontWeight="bold"
                     color={colors.greenAccent[500]}
                 >
-                    Visual Exploration
+                    Visual Exploration 
                 </Typography>
                 </Box>
                 <Box>

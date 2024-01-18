@@ -1,30 +1,36 @@
-Exercise Name,Chest,Back,Arms,Abdominals,Legs,Shoulders
-Aerobics,False,False,False,False,False,False
-Bench Press (Barbell),True,False,True,False,False,True
-Shoulder Press (Plate Loaded),False,False,True,False,False,True
-Seated Row (Cable),False,True,True,False,False,False
-Face Pull (Cable),False,True,True,False,False,True
-Lunge (Dumbbell),False,False,True,False,True,False
-Seated Leg Curl (Machine),False,False,False,False,True,False
-Leg Press,False,False,False,False,True,False
-Squat (Barbell),False,False,True,False,True,True
-Running,False,False,False,False,True,False
-Incline Bench Press (Dumbbell),True,False,True,False,False,True
-Arnold Press (Dumbbell),False,False,True,False,False,True
-Hammer Curl (Dumbbell),False,False,True,False,False,False
-Lat Pulldown (Cable),False,True,True,False,False,True
-Bent Over Row - Underhand (Barbell),False,True,True,False,False,False
-Incline Row (Dumbbell),False,True,True,False,False,True
-Lateral Raise (Dumbbell),False,False,False,False,False,True
-Romanian Deadlift (Dumbbell),False,True,True,False,True,True
-Seated Calf Raise (Plate Loaded),False,False,False,False,True,False
-Bicep Curl (Dumbbell),False,False,True,False,False,False
-Triceps Extension (Dumbbell),False,True,True,False,False,True
-Plank,False,False,False,True,False,True
-Jump Rope,False,False,True,False,True,True
-Squat (Bodyweight),False,False,True,False,True,True
-Push Up,True,False,True,False,False,True
-Side Plank,False,False,False,True,False,True
-Crunch,False,False,False,True,False,False
-Pull Up,True,True,True,False,False,True
-Triceps Pushdown (Cable - Straight Bar),False,True,True,False,False,True
+Exercise Name,Chest,Clavicular Head,Sternal Head,Abdominal Head,Lats,Back,Mid Back,Mid Traps,Rhomboids,Biceps,Triceps,Shoulder,Anterior Deltoids,Lateral Deltoids,Posterior Deltoids,Upper Traps,Quads,Hamstrings,Glutes,Adductors,Legs,Calves,Abdominals
+Aerobics,False,False,False,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False
+Bench Press (Barbell),True,False,True,False,False,False,False,False,False,True,True,True,False,False,False,False,False,False,False,False,False,False,False
+Shoulder Press (Plate Loaded),False,True,True,False,False,False,False,True,False,False,True,True,True,True,False,False,False,False,False,False,False,False,False
+Seated Row (Cable),False,False,False,False,True,True,False,True,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False
+Face Pull (Cable),False,False,False,False,True,True,False,True,True,False,False,True,True,True,False,False,False,False,False,False,False,False,False
+Lunge (Dumbbell),False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,True,True,False,False,True,False,False
+Seated Leg Curl (Machine),False,False,False,False,False,False,True,True,False,False,False,False,False,False,False,False,True,True,False,False,True,False,False
+Leg Press,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False,True,True,True,False,False,True,False,False
+Squat (Barbell),True,False,True,False,False,False,False,True,True,False,True,True,True,True,False,True,True,True,False,False,True,False,False
+Running,False,False,False,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,True,False,False,False
+Incline Bench Press (Dumbbell),True,True,False,False,False,False,False,False,False,True,True,True,False,False,False,False,False,False,False,False,False,False,True
+Arnold Press (Dumbbell),False,True,False,False,False,False,False,True,False,False,True,True,True,True,True,False,False,False,False,False,False,False,False
+Hammer Curl (Dumbbell),False,False,False,False,False,False,False,False,False,True,False,False,False,False,False,False,False,False,False,False,False,False,True
+Lat Pulldown (Cable),False,False,False,False,True,True,False,True,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False
+Bent Over Row - Underhand (Barbell),True,False,True,False,True,True,True,True,True,False,False,False,False,False,False,False,False,False,False,False,False,False,True
+Triceps Extension (Dumbbell),False,False,False,False,False,False,False,False,False,False,True,False,False,False,False,False,False,False,False,False,False,True,False
+Seated Calf Raise (Plate Loaded),False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,True,False,False
+Bicep Curl (Dumbbell),False,False,False,False,False,False,False,False,False,True,False,False,False,False,False,False,False,False,False,False,False,False,True
+Incline Row (Dumbbell),True,False,True,False,True,True,True,True,True,False,False,False,False,False,False,False,False,False,False,False,False,False,True
+Lateral Raise (Dumbbell),False,False,False,False,False,False,False,False,False,False,False,False,True,True,True,False,False,False,False,False,False,False,False
+Romanian Deadlift (Dumbbell),False,False,False,False,True,True,True,True,True,False,False,False,False,False,False,False,True,True,True,False,False,True,False
+Pull Up,True,False,False,False,True,True,True,True,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False
+Jump Rope,False,False,False,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,True,False,False,False
+Squat (Bodyweight),False,False,False,False,False,False,False,True,True,False,False,False,False,False,False,True,True,True,False,False,True,False,False
+Push Up,True,False,False,False,False,False,False,False,False,True,False,False,False,False,False,False,False,False,False,False,False,False,True
+Side Plank,False,False,False,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,True
+Plank,False,False,False,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,True
+Crunch,False,False,False,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,True,False
+Triceps Pushdown (Cable - Straight Bar),False,False,False,False,False,False,False,False,False,False,True,False,False,False,False,False,False,False,False,False,False,True,False
+Leg Press,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False,True,True,True,False,False,True,False,False
+Hip Abductor (Machine),False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,True,False,False,True,False,False
+Lat Pulldown (Single Arm),False,False,False,False,True,True,False,True,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False
+Incline Bench Press (Smith Machine),True,False,True,False,False,False,False,False,False,True,True,True,False,False,False,False,False,False,False,False,False,False,True
+Hip Abductor (Machine),False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,True,False,False,True,False,False
+Cable Crunch,False,False,False,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,True,False

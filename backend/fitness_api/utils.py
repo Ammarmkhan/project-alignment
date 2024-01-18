@@ -7,12 +7,6 @@ import os
 import pandas as pd
 import re
 
-# Specify the path to your CSV file
-# csv_path = os.path.join(os.path.dirname(__file__), 'data', 'strong.csv')
-# df_original = pd.read_csv(csv_path)
-# df = df_original.copy()
-
-
 def clean_data(df_input):
 
     # Use pd.read_csv with the file-like object
@@ -64,11 +58,11 @@ def clean_data(df_input):
     ## Join on 'Exercise Name' to add 'Muscles Exercised' columns
 
     # let's import muscles data
-    muscles_path = os.path.join(os.path.dirname(__file__), 'muscles_data', 'muscle_groups.csv')
+    muscles_path = os.path.join(os.path.dirname(__file__), 'muscle_groups.csv')
     muscles_df = pd.read_csv(muscles_path)
 
     # We join on exercise name
-    df = df.merge(muscles_df, how='left', on='Exercise Name')
+    df = df.merge(muscles_df, how='inner', on='Exercise Name')
 
     return df
 

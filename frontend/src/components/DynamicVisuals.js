@@ -55,7 +55,7 @@ const DynamicVisuals = (props) => {
                     y: {
                         beginAtZero: true,
                     },
-                }
+                },
             },
         };
 
@@ -84,7 +84,6 @@ const DynamicVisuals = (props) => {
         try {
             const analyzedData = await analyzeParagraph(selectedWorkout);
             const data_set = processData(props.workouts, analyzedData); // Do relevant processing
-            console.log(data_set);
             createOrUpdateChart(data_set);
         } catch (error) {
             console.error('Error:', error);
